@@ -1,4 +1,11 @@
 services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    volumes:
+      - ../..:/workspaces:cached
+    network_mode: service:db
+    command: sleep infinity
+
   db:
     container_name: playstation_db
     image: postgres:17.5-alpine
@@ -7,15 +14,15 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     ports:
       - '${DB_PORT}:5432'
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER']
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
-  db:
+  postgres-data:
