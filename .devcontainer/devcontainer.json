@@ -9,7 +9,7 @@
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {}
-  }
+  },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
@@ -18,7 +18,44 @@
   // "postCreateCommand": "yarn install",
 
   // Configure tool-specific properties.
-  // "customizations": {},
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "settings": {
+        // Prettier formatting
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+        // Tab & indentation
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+
+        // Files
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+
+        // TypeScript/NestJS/React
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "typescript.format.enable": true,
+
+        // ESLint
+        "eslint.enable": true,
+        "eslint.format.enable": true,
+        "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+      "extensions": [
+        "esbenp.prettier-vscode", // Prettier
+        "sibiraj-s.vscode-scss-formatter", // SCSS formatter
+        "redhat.vscode-yaml", // YAML support
+        "nestjs.nestjs-files" // NestJS file helpers
+      ]
+    }
+  }
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
