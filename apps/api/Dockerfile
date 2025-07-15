@@ -4,18 +4,22 @@
 # Tip: Modify "docker-build" options in project.json to change docker build args.
 #
 # Run the container with `docker run -p 3000:3000 -t playstation-api`.
-FROM docker.io/node:lts-alpine
+FROM docker.io/node:lts-alpine AS production
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
 WORKDIR /app
 
+# Create non-root system user and group
 RUN addgroup --system playstation-api && \
           adduser --system -G playstation-api playstation-api
 
+# Copy the built app from the development stage
 COPY apps/api/dist playstation-api/
 COPY apps/api/package.json playstation-api/
+
+# Set ownership of the app directory to the non-root system user
 RUN chown -R playstation-api:playstation-api .
 
 # You can remove this install step if you build with `--bundle` option.

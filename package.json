@@ -2,7 +2,10 @@
   "name": "@playstation/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:api": "nx build api",
+    "dev:api": "nx serve api"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^11.0.0",
