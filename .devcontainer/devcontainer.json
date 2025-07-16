@@ -1,5 +1,4 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
   "name": "Playstation",
   "dockerComposeFile": "docker-compose.yml",
@@ -8,7 +7,7 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {}
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0.0.15": {}
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -51,8 +50,7 @@
       "extensions": [
         "esbenp.prettier-vscode", // Prettier
         "sibiraj-s.vscode-scss-formatter", // SCSS formatter
-        "redhat.vscode-yaml", // YAML support
-        "nestjs.nestjs-files" // NestJS file helpers
+        "redhat.vscode-yaml" // YAML support
       ]
     }
   }
