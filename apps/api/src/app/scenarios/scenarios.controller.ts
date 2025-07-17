@@ -1,15 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ScenariosService } from './scenarios.service';
+import { Scenario } from './scenarios.entity';
 
 @Controller('scenarios')
 export class ScenariosController {
+  constructor(private scenariosService: ScenariosService) {}
+
   @Get()
-  getScenarios() {
-    return {
-      data: [
-        { id: 1, name: 'Scenario 1' },
-        { id: 2, name: 'Scenario 2' },
-        { id: 3, name: 'Scenario 3' },
-      ],
-    };
+  getAllScenarios() {
+    return this.scenariosService.findAll();
+  }
+
+  @Post()
+  createScenario(@Body() scenario: Scenario) {
+    return this.scenariosService.create(scenario);
   }
 }
