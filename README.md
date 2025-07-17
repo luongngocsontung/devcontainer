@@ -1,102 +1,202 @@
-# Playstation
+# PlayStation Project
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A monorepo built with Nx containing NestJS applications for the PlayStation project.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## 🏗️ Project Structure
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+```
+playstation/
+├── apps/
+│   ├── api/           # Main NestJS API application
+│   └── api-e2e/       # End-to-end tests for the API
+├── .devcontainer/     # Development container configuration
+└── package.json       # Root package.json with workspace configuration
+```
 
-## Run tasks
+## 🔧 Environment Variables
 
-To run the dev server for your app, use:
+Create a `.env` file in the root directory with the following variables:
 
-```sh
+| Variable      | Description                          | Default       | Required |
+| ------------- | ------------------------------------ | ------------- | -------- |
+| `PORT`        | Port number for the API server       | `3000`        | No       |
+| `ENV`         | Environment (development/production) | `development` | No       |
+| `DB_HOST`     | PostgreSQL database host             | -             | Yes      |
+| `DB_PORT`     | PostgreSQL database port             | -             | Yes      |
+| `DB_USER`     | PostgreSQL database username         | -             | Yes      |
+| `DB_PASSWORD` | PostgreSQL database password         | -             | Yes      |
+| `DB_NAME`     | PostgreSQL database name             | -             | Yes      |
+| `HOST`        | Host for the API server              | `localhost`   | Yes      |
+
+### Example `.env` file:
+
+```env
+PORT=3000
+ENV=development
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=playstation
+HOST=localhost
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+### 1. Start Development Container
+
+1. **Open the project in VS Code**
+
+   ```bash
+   code .
+   ```
+
+2. **Start the Dev Container**
+
+   - When prompted, click "Reopen in Container" or
+   - Press `Cmd/Ctrl + Shift + P` and run "Dev Containers: Reopen in Container"
+
+3. **Environment File Setup**
+   - The devcontainer will automatically copy your `.env` file to `.devcontainer/.env`
+   - This allows the docker-compose configuration to access your environment variables
+   - Make sure you have a `.env` file in the root directory before starting the container
+
+### 2. Install Dependencies
+
+Once inside the devcontainer, install the project dependencies:
+
+```bash
+npm install
+```
+
+### 3. Run the Project
+
+To run all applications in the monorepo:
+
+```bash
+npm run dev:all
+```
+
+This command will:
+
+- Start the main API application (`apps/api`)
+- Watch for file changes and automatically restart services
+- Run all applications in parallel
+
+## 🛠️ Available Scripts
+
+### Root Level Scripts
+
+```bash
+# Build the API application
+npm run build:api
+
+# Start the API in development mode
+npm run dev:api
+
+# Run all applications
+npm run dev:all
+
+# Run specific application
 npx nx serve api
+
+# Run tests
+npx nx test api
+
+# Run e2e tests
+npx nx e2e api-e2e
 ```
 
-To create a production bundle:
+### Nx Commands
 
-```sh
-npx nx build api
+```bash
+# List all available targets
+npx nx show projects
+
+# Run a specific target for a project
+npx nx [target] [project]
+
+# Generate new components/modules
+npx nx generate @nx/nest:controller [name] --project=api
+npx nx generate @nx/nest:service [name] --project=api
 ```
 
-To see all available targets to run for a project, run:
+## 🗄️ Database
 
-```sh
-npx nx show project api
+The project uses PostgreSQL as the database. Make sure you have:
+
+1. **PostgreSQL running** (either locally or in a container)
+2. **Database created** with the name specified in your `.env` file
+3. **Correct credentials** in your `.env` file
+
+### Database Configuration
+
+- The application uses TypeORM for database management
+- In development mode, `synchronize: true` is enabled (auto-creates tables)
+- Make sure your database is accessible from the devcontainer
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npx nx test api
+
+# Run e2e tests
+npx nx e2e api-e2e
+
+# Run tests with coverage
+npx nx test api --coverage
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## 📁 Project Structure Details
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### API Application (`apps/api/`)
 
-## Add new projects
+- **Main entry point**: `src/main.ts`
+- **Configuration**: Uses `@nestjs/config` for environment variables
+- **Database**: TypeORM with PostgreSQL
+- **Modules**:
+  - `AppModule`: Main application module
+  - `ScenariosModule`: Business logic module
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### E2E Tests (`apps/api-e2e/`)
 
-Use the plugin's generator to create new projects.
+- **Test setup**: `src/support/test-setup.ts`
+- **Global setup**: `src/support/global-setup.ts`
+- **Global teardown**: `src/support/global-teardown.ts`
 
-To generate a new application, use:
+## 🔍 Troubleshooting
 
-```sh
-npx nx g @nx/node:app demo
-```
+### Dev Container Issues
 
-To generate a new library, use:
+- **Container won't start**: Check if Docker is running and you have sufficient resources
+- **Environment variables not working**: Ensure `.env` file exists in the root directory
+- **Port conflicts**: Check if ports 3000 (API) are available
 
-```sh
-npx nx g @nx/node:lib mylib
-```
+### Database Issues
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+- **Connection refused**: Verify PostgreSQL is running and accessible
+- **Authentication failed**: Check database credentials in `.env`
+- **Database not found**: Create the database with the name specified in `DB_NAME`
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### TypeScript/Decorator Issues
 
-## Set up CI!
+- **Decorator errors**: The project uses legacy decorators, ensure `experimentalDecorators: true` in tsconfig
+- **Build errors**: Run `npm install` to ensure all dependencies are installed
 
-### Step 1
+## 📝 Development Notes
 
-To connect to Nx Cloud, run the following command:
+- The project uses **Nx** for monorepo management
+- **NestJS** is used for the API framework
+- **TypeORM** handles database operations
+- **PostgreSQL** is the primary database
+- Development container provides a consistent environment across different machines
 
-```sh
-npx nx connect
-```
+## 📄 License
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/node?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project is licensed under the MIT License.
