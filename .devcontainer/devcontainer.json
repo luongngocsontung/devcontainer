@@ -3,18 +3,20 @@
   "name": "Playstation",
   "dockerComposeFile": "docker-compose.yml",
   "service": "devcontainer",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces",
 
   // Features to add to the dev container. More info: https://containers.dev/features.
-  "features": {
-    "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0.0.15": {}
-  },
+  // "features": {},
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
 
-  // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "yarn install",
+  // This is for creating folder for nx socket (NX Daemon)
+  "postCreateCommand": "mkdir -p /tmp/local",
+  "containerEnv": {
+    "NX_DAEMON_SOCKET_DIR": "/tmp/local",
+    "NX_DAEMON": "true"
+  },
 
   // Configure tool-specific properties.
   "customizations": {
@@ -50,7 +52,8 @@
       "extensions": [
         "esbenp.prettier-vscode", // Prettier
         "sibiraj-s.vscode-scss-formatter", // SCSS formatter
-        "redhat.vscode-yaml" // YAML support
+        "redhat.vscode-yaml", // YAML support
+        "nrwl.angular-console" // Nx console
       ]
     }
   }

@@ -1,8 +1,14 @@
 services:
   devcontainer:
-    image: mcr.microsoft.com/devcontainers/base:alpine
+    image: mcr.microsoft.com/devcontainers/typescript-node:22
+    environment:
+      NX_DAEMON_SOCKET_DIR: '/test'
+      NX_DAEMON: true
     volumes:
-      - ../..:/workspaces:cached
+      - ../:/workspaces:cached
+      # Mount local tmp to container
+      - ~/tmp:/tmp/local
+      - ~/.ssh:/home/node/.ssh:ro
     network_mode: service:db
     command: sleep infinity
 
@@ -19,7 +25,7 @@ services:
       - '${DB_PORT}:5432'
     restart: unless-stopped
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER']
+      test: ['CMD-SHELL', 'pg_isready -U $DB_USER']
       interval: 10s
       timeout: 5s
       retries: 5
