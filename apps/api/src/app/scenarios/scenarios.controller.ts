@@ -11,6 +11,7 @@ export class ScenariosController {
     return this.scenariosService.findAll();
   }
 
+  // TODO: Add validation for the request body
   @Post()
   createScenario(@Body() scenario: Scenario) {
     return this.scenariosService.create(scenario);

@@ -8,7 +8,7 @@ import path from 'path';
 
 @Module({
   imports: [
-    // This can use custom configuration file to manage env variables better
+    // TODO: Make custom configuration file to manage env variables better (support typescript variables)
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [path.resolve(__dirname, '..', '..', '..', '..', '.env')],
