@@ -5,16 +5,10 @@
   "service": "devcontainer",
   "workspaceFolder": "/workspaces",
 
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
-
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
-
-  // This is for creating folder for nx socket (NX Daemon)
-  "postCreateCommand": "mkdir -p /tmp/local",
+  "postCreateCommand": "sudo chown -R node /workspaces",
+  // Define daemon socket directory and enable NX daemon
   "containerEnv": {
-    "NX_DAEMON_SOCKET_DIR": "/tmp/local",
+    "NX_DAEMON_SOCKET_DIR": "/tmp",
     "NX_DAEMON": "true"
   },
 

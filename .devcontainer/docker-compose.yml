@@ -1,14 +1,15 @@
 services:
   devcontainer:
     image: mcr.microsoft.com/devcontainers/typescript-node:22
-    environment:
-      NX_DAEMON_SOCKET_DIR: '/test'
-      NX_DAEMON: true
     volumes:
       - ../:/workspaces:cached
-      # Mount local tmp to container
-      - ~/tmp:/tmp/local
+      # SSH key for git
       - ~/.ssh:/home/node/.ssh:ro
+      # Improve disk performance (only for folders that are written frequently)
+      # Ref: https://code.visualstudio.com/remote/advancedcontainers/improve-performance
+      - node_modules:/workspaces/node_modules
+      - nx-volumn:/workspaces/.nx
+      - api-dist:/workspaces/apps/api/dist
     network_mode: service:db
     command: sleep infinity
 
@@ -32,3 +33,6 @@ services:
 
 volumes:
   postgres-data:
+  node_modules:
+  api-dist:
+  nx-volumn:
