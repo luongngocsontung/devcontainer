@@ -8,6 +8,9 @@
   // Copy .env to .devcontainer/.env for docker-compose to use
   "initializeCommand": "cp .env .devcontainer/.env",
 
+  // // Forward ports for development
+  // "forwardPorts": [4200],
+
   "postCreateCommand": "sudo chown -R node /workspaces",
   // Define daemon socket directory and enable NX daemon
   "containerEnv": {
