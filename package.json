@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {
     "dev:all": "nx run-many --target=serve",
-    "build:all": "nx run-many --target=build",
-    "build:api": "nx build api",
     "dev:api": "nx serve api",
     "dev:client": "nx serve client",
+    "build:all": "nx run-many --target=build",
+    "build:api": "nx build api",
     "build:client": "nx build client",
     "test:all": "nx run-many --target=test",
     "test:api": "nx test api",
@@ -72,6 +72,7 @@
     "jest-environment-node": "^29.7.0",
     "jiti": "2.4.2",
     "jsdom": "~22.1.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "21.2.3",
     "prettier": "^2.6.2",
     "sass": "^1.55.0",
@@ -85,6 +86,8 @@
     "webpack-cli": "^5.1.4"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/shared/types/*",
+    "shared"
   ]
 }

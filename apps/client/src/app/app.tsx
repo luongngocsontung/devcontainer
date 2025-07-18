@@ -1,10 +1,19 @@
 // Uncomment this line to use CSS modules
 // import styles from './app.module.scss';
+import { useEffect } from 'react';
 import NxWelcome from './nx-welcome';
+import { createScenarioSchema } from '@playstation/shared';
 
 import { Route, Routes, Link } from 'react-router-dom';
 
 export function App() {
+  useEffect(() => {
+    const response = createScenarioSchema.parse({
+      name: 'test',
+    });
+    console.log('>>>> zod validation', response);
+  }, []);
+
   return (
     <div>
       <NxWelcome title="@playstation/client" />

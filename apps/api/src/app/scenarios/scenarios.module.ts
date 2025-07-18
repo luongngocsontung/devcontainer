@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ScenariosController } from './scenarios.controller';
 import { ScenariosService } from './scenarios.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ScenarioSchema } from './scenerios.schema';
+import { Scenario } from './scenarios.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ScenarioSchema])],
+  imports: [TypeOrmModule.forFeature([Scenario])],
   controllers: [ScenariosController],
   providers: [ScenariosService],
 })
