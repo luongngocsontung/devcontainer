@@ -2,6 +2,7 @@ services:
   devcontainer:
     image: mcr.microsoft.com/devcontainers/typescript-node:22
     volumes:
+      # Workspace
       - ../:/workspaces:cached
       # SSH key for git
       - ~/.ssh:/home/node/.ssh:ro
@@ -10,6 +11,8 @@ services:
       - node_modules:/workspaces/node_modules
       - nx-volumn:/workspaces/.nx
       - api-dist:/workspaces/apps/api/dist
+      # Terminal
+      - ~/.zsh_history:/home/node/.zsh_history
     network_mode: service:db
     command: sleep infinity
 
